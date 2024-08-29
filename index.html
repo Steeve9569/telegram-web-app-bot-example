@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="MobileOptimized" content="176" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="robots" content="noindex,nofollow" />
+    <script src="https://telegram.org/js/telegram-web-app.js?2"></script>
+    <script>
+        function setThemeClass() {
+            document.documentElement.className = Telegram.WebApp.colorScheme;
+        }
+
+        Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+        setThemeClass();
+
+    </script>
+    <title></title>
+    </head>
+    <body>
+        <section>
+            <h1>Welcome to Anvy Mini-Apps</h1>
+            <p>This is a simplified version of the Telegram mini-app.</p>
+            <div id="user-info">
+                <p>User: <span id="user-name"></span></p>
+                <p>Biometric: <span id="biometric-status"></span></p>
+            </div>
+        </section>
+    
+        <script>
+            // JavaScript code for the light version
+            // ...
+    
+            // Get user info
+            Telegram.WebApp.getMe(function(user) {
+                document.getElementById('user-name').textContent = user.first_name + ' ' + user.last_name;
+            });
+    
+            // Check biometric status
+            Telegram.WebApp.isBiometricEnabled(function(enabled) {
+                document.getElementById('biometric-status').textContent = enabled ? 'Enabled' : 'Disabled';
+            });
+        </script>
+    </body>
+    </html>
