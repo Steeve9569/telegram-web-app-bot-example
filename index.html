@@ -363,8 +363,6 @@
 
 <body class="" style="visibility: hidden;">
 
-<h3 id="displayName"></h3>
-
 <section id="top_sect" class="second">
     <button id="main_btn" onclick="DemoApp.sendMessage('');">Send «Hello, World!»</button>
     <button id="with_webview_btn" onclick="DemoApp.sendMessage('', true);">Send «Hello, World!» with inline webview button</button>
@@ -1130,11 +1128,47 @@
             Telegram.WebApp.onEvent('themeChanged', function () {
                 document.getElementById('theme_data').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
             });
-            document.getElementById('webview_data').innerHTML = JSON.stringify(DemoApp.initDataUnsafe, null, 2);
-            const user = JSON.stringify(DemoApp.initDataUnsafe, null, 2);
-            const displayName = user.user.first_name + ' ' + user.user.last_name;
-            document.getElementById('displayName').innerHTML = displayName;
+            if (DemoApp.initDataUnsafe.query_id) {
+                document.getElementById('main_btn').style.display = 'block';
+            }
+            document.getElementById('with_webview_btn').style.display = !!DemoApp.initDataUnsafe.query_id && !DemoApp.initDataUnsafe.receiver ? 'block' : 'none';
+            document.getElementById('webview_data').innerHTML         = JSON.stringify(DemoApp.initDataUnsafe, null, 2);
+
             document.getElementById('theme_data').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
+            document.getElementById('regular_link').setAttribute('href', document.getElementById('regular_link').getAttribute('href') + location.hash);
+            document.getElementById('text_field').focus();
+            document.getElementById('regular_field').addEventListener('input', function (e) {
+                const val = this.value.toLowerCase();
+                if (val.indexOf('progress') >= 0) {
+                    Telegram.WebApp.MainButton.showProgress();
+                } else {
+                    Telegram.WebApp.MainButton.hideProgress();
+                }
+            });
+
+            document.getElementById('ver').innerHTML      = Telegram.WebApp.version;
+            document.getElementById('platform').innerHTML = Telegram.WebApp.platform;
+
+            if (DemoApp.initDataUnsafe.receiver) {
+                document.getElementById('peer_wrap').style.display = 'block';
+                document.getElementById('peer_name').innerHTML     = DemoApp.initDataUnsafe.receiver.first_name + ' ' + DemoApp.initDataUnsafe.receiver.last_name;
+                if (DemoApp.initDataUnsafe.receiver.photo_url) {
+                    document.getElementById('peer_photo').setAttribute('src', DemoApp.initDataUnsafe.receiver.photo_url);
+                } else {
+                    document.getElementById('peer_photo').style.display = 'none';
+                }
+            } else if (DemoApp.initDataUnsafe.chat) {
+                document.getElementById('peer_wrap').style.display = 'block';
+                document.getElementById('peer_name').innerHTML     = DemoApp.initDataUnsafe.chat.title;
+                if (DemoApp.initDataUnsafe.chat.photo_url) {
+                    document.getElementById('peer_photo').setAttribute('src', DemoApp.initDataUnsafe.chat.photo_url);
+                } else {
+                    document.getElementById('peer_photo').style.display = 'none';
+                }
+            }
+
+            document.getElementById('displayName').innerHTML = DemoApp.initDataUnsafe.user.first_name + ' ' + DemoApp.initDataUnsafe.user.last_name;
+
             DemoApp.checkInitData();
         }
     };
