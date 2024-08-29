@@ -10,7 +10,7 @@
 <h1 id="greeting">Loading...</h1>
 
 <script type="application/javascript">
-    Telegram.WebApp.ready(function() {
+ 
         // Vérification que l'utilisateur est bien défini
         const user = Telegram.WebApp.initDataUnsafe.user;
 
@@ -24,7 +24,7 @@
             // Si les données utilisateur ne sont pas disponibles
             document.getElementById('greeting').textContent = 'Hello, User!';
         }
-    });
+    
 </script>
 
 </body>
