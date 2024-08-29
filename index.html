@@ -7,17 +7,23 @@
 </head>
 <body>
 
-<h1 id="greeting"></h1>
+<h1 id="greeting">Loading...</h1>
 
 <script type="application/javascript">
     Telegram.WebApp.ready(function() {
-        // Fetch the user's first and last name
+        // Vérification que l'utilisateur est bien défini
         const user = Telegram.WebApp.initDataUnsafe.user;
-        const firstName = user.first_name;
-        const lastName = user.last_name;
 
-        // Display a greeting message
-        document.getElementById('greeting').textContent = `Hello, ${firstName} ${lastName}`;
+        if (user) {
+            const firstName = user.first_name || 'First Name';
+            const lastName = user.last_name || 'Last Name';
+
+            // Injection du texte dans l'élément h1
+            document.getElementById('greeting').textContent = `Hello, ${firstName} ${lastName}`;
+        } else {
+            // Si les données utilisateur ne sont pas disponibles
+            document.getElementById('greeting').textContent = 'Hello, User!';
+        }
     });
 </script>
 
